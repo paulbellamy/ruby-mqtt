@@ -29,7 +29,7 @@ class MQTT::Client
 
   # Connect to the MQTT broker
   # If a block is given, then yield to that block and then disconnect again.
-  def connect(clientid=nil)
+  def connect(clientid=nil, opts={})
     @client_id = clientid unless clientid.nil?
 
     if not connected?
@@ -40,7 +40,9 @@ class MQTT::Client
       packet = MQTT::Packet::Connect.new(
         :clean_start => @clean_start,
         :keep_alive => @keep_alive,
-        :client_id => @client_id
+        :client_id => @client_id,
+        :username => opts[:username],
+        :password=> opts[:password]
       )
 
       # Send packet
